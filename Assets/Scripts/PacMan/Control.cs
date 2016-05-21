@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Control : MonoBehaviour {
-    public float speed = 0.4f;
+    private float speed = 0.24f;
     Vector3 _dest;
     Vector3 _dir = Vector2.zero;
     Vector3 _nextDir = Vector2.zero;
@@ -31,48 +31,30 @@ public class Control : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void FixedUpdate() {
         MoveBasedOnPosition();
-    }
-
-    void MoveBasedOnVelocity() {
-        Vector3 movementDirection = rigidBody.velocity;
-
-        if (Input.GetAxis("Horizontal") > 0) {
-            movementDirection.z -= 2.65f;
-        }
-        else if (Input.GetAxis("Horizontal") < 0) {
-            movementDirection.z += 2.65f;
-        }
-        else if (Input.GetAxis("Vertical") > 0) {
-            movementDirection.x += 2.65f;
-        }
-        else if (Input.GetAxis("Vertical") < 0) {
-            movementDirection.x -= 2.65f;
-        }
-        rigidBody.AddForce(movementDirection);
     }
 
     bool Valid(Vector3 direction) {
         // cast line from 'next to pacman' to pacman
         // not from directly the center of next tile but just a little further from center of next tile
         Vector3 pos = transform.position;
-        Debug.DrawLine(pos + direction, pos, Color.red, 5, true);
+        //Debug.DrawLine(pos + direction, pos, Color.red, 5, true);
         direction += new Vector3(direction.x * 0.45f, 0, direction.z * 0.45f);
         //Debug.DrawRay(pos + direction, pos);
         //Debug.DrawLine(pos + direction, pos, Color.green, 1, true);
-        Debug.Log(Physics.Linecast(pos + direction, pos));
+        //Debug.Log(Physics.Linecast(pos + direction, pos));
 
         RaycastHit hit;
         Physics.Linecast(pos + direction, pos, out hit);
-        Debug.Log("Hit: " + hit.ToString());
+        //Debug.Log("Hit: " + hit.ToString());
         //Debug.Log("Collider null? ");
-        Debug.Log("Collider null? " + (hit.collider == null));
+        //Debug.Log("Collider null? " + (hit.collider == null));
 
         if (hit.collider != null) {
             if (hit.collider.name != null) {
-                Debug.Log("collider name null? " + (hit.collider.name == null));
-                Debug.Log(hit.collider.name);
+                //Debug.Log("collider name null? " + (hit.collider.name == null));
+                //Debug.Log(hit.collider.name);
 
                 return hit.collider.name == PELLET_NAME; // || (hit.collider == GetComponent<Collider>());
             }
@@ -82,7 +64,7 @@ public class Control : MonoBehaviour {
     }
 
     void MoveBasedOnPosition() {
-        Vector3 p = Vector3.MoveTowards(transform.position, _dest, 0.25f);
+        Vector3 p = Vector3.MoveTowards(transform.position, _dest, speed);
         GetComponent<Rigidbody>().MovePosition(p);
 
         if (Input.GetAxis("Horizontal") > 0) _nextDir = new Vector3(0, 0, -1f);
