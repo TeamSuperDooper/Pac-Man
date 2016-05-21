@@ -5,9 +5,14 @@ public class Control : MonoBehaviour {
     private float speed = 0.24f;
     private float slomoSpeed = 0.01f;
     Vector3 _dest;
-    Vector3 _dir = Vector2.zero;
-    Vector3 _nextDir = Vector2.zero;
-
+    Vector3 _dir = Vector3.zero;
+    Vector3 _nextDir = Vector3.zero;
+    Vector3 _lastDir = new Vector3(1f, 0, 0);
+    Vector3 _currentDir = new Vector3(-1f, 0, 0);
+    private Vector3 DIRECTION_LEFT = new Vector3(0, 0, 1f);
+    private Vector3 DIRECTION_RIGHT = new Vector3(0, 0, -1f);
+    private Vector3 DIRECTION_UP = new Vector3(1f, 0, 0);
+    private Vector3 DIRECTION_DOWN = new Vector3(-1f, 0, 0);
 
     [SerializeField]
     private GameObject spotLight;
@@ -69,27 +74,46 @@ public class Control : MonoBehaviour {
 
     void MoveBasedOnPosition() {
         Vector3 p = Vector3.MoveTowards(transform.position, _dest, speed);
+
+        //Rotation
+        //Debug.Log(_lastDir + ", " + _nextDir);
+        if (_lastDir != _nextDir) {
+            Vector3 t = transform.localRotation.eulerAngles;
+
+            if(_nextDir == DIRECTION_LEFT) {
+                t = new Vector3(0, 450, 0);
+            } else if(_nextDir == DIRECTION_RIGHT) {
+                t = new Vector3(0, 270, 0);
+            } else if(_nextDir == DIRECTION_UP) {
+                t = new Vector3(0, 180, 0);
+            } else if(_nextDir == DIRECTION_DOWN) {
+                t = new Vector3(0, 360, 0);
+            }
+
+            transform.localRotation = Quaternion.Euler(t.x, t.y, t.z);
+        }
+        //Debug.Log("Current direction: " + _currentDir);
         GetComponent<Rigidbody>().MovePosition(p);
 
+        _lastDir = _nextDir;
+
         if(tag == "Ghost") {
-            if (Input.GetAxis("Horizontal2") > 0) _nextDir = new Vector3(0, 0, -1f);
-            if (Input.GetAxis("Horizontal2") < 0) _nextDir = new Vector3(0, 0, 1f);
-            if (Input.GetAxis("Vertical2") > 0) _nextDir = new Vector3(1f, 0, 0);
-            if (Input.GetAxis("Vertical2") < 0) _nextDir = new Vector3(-1f, 0, 0);
+            if (Input.GetAxis("Horizontal2") > 0) _nextDir = DIRECTION_RIGHT;
+            if (Input.GetAxis("Horizontal2") < 0) _nextDir = DIRECTION_LEFT;
+            if (Input.GetAxis("Vertical2") > 0) _nextDir = DIRECTION_UP;
+            if (Input.GetAxis("Vertical2") < 0) _nextDir = DIRECTION_DOWN;
         }
         else {
-            if (Input.GetAxis("Horizontal") > 0) _nextDir = new Vector3(0, 0, -1f);
-            if (Input.GetAxis("Horizontal") < 0) _nextDir = new Vector3(0, 0, 1f);
-            if (Input.GetAxis("Vertical") > 0) _nextDir = new Vector3(1f, 0, 0);
-            if (Input.GetAxis("Vertical") < 0) _nextDir = new Vector3(-1f, 0, 0);
+            if (Input.GetAxis("Horizontal") > 0) _nextDir = DIRECTION_RIGHT;
+            if (Input.GetAxis("Horizontal") < 0) _nextDir = DIRECTION_LEFT;
+            if (Input.GetAxis("Vertical") > 0) _nextDir = DIRECTION_UP;
+            if (Input.GetAxis("Vertical") < 0) _nextDir = DIRECTION_DOWN;
         }
         //_dest = transform.position + _nextDir;
         // if pacman is in the center of a tile
 
 
         //Debug.DrawLine(_dest, transform.position, Color.red, 2, true);
-        ///Debug.Log(Vector2.Distance(_dest, transform.position));
-        //Debug.Log(Vector2.Distance(_dest, transform.position) < 0.00001f);
 
         if (Vector3.Distance(_dest, transform.position) < 0.00001f) {
             if (Valid(_nextDir)) {
