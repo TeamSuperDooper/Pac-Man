@@ -52,7 +52,7 @@ public class TileManager : MonoBehaviour {
         string data = @"0000000000000000000000000000
 0111111111111001111111111110
 0100001000001001000001000010
-0100001000001111000001000010
+0500001000001111000001000050
 0100001000001001000001000010
 0111111111111001111111111110
 0100001001000000001001000010
@@ -62,15 +62,15 @@ public class TileManager : MonoBehaviour {
 0001001000001001000001001000
 0111001111111111111111001110
 0100001001000000001001000010
-0100001001000000001001000010
-0111111001000000001001111110
-0100001001000000001001000010
+0100001001022442201001000010
+3111111001022222201001111113
+0100001001022222201001000010
 0100001001000000001001000010
 0111001001111111111001001110
 0001001001000000001001001000
 0001001001000000001001001000
 0111111111111111111111111110
-0100001000001001000001000010
+0500001000001001000001000050
 0100001000001001000001000010
 0111001111111001111111001110
 0001001001000000001001001000
@@ -104,11 +104,19 @@ public class TileManager : MonoBehaviour {
                     //We found a wall
                     if (line[i] == '0') {
                         Instantiate(wall, pos, Quaternion.identity);
-                    }
-                    else if (line[i] == '1') {
+                    } else if (line[i] == '1') {
                         //Instantiate(pellet, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
                         Instantiate(pellet, new Vector3(pos.x, pos.y + 0.1f, pos.z), pellet.transform.rotation);
+                    } else if(line[i] == '2') {
+                        //Ghost house
+                    } else if (line[i] == '3') {
+                        //Portal
+                    } else if (line[i] == '4') {
+                        //Ghost door
+                    } else if (line[i] == '5') {
+                        //Powerup: Ghost eater
                     }
+
 
                     // if the tile we read is a valid tile (movable)
                     if (line[i] == '1') {
@@ -144,7 +152,7 @@ public class TileManager : MonoBehaviour {
 
                 Y--;
 
-                Debug.Log("Row " + Y.ToString("D3") + " = " + row);
+                //Debug.Log("Row " + Y.ToString("D3") + " = " + row);
                 row = "";
 
                 pos.x -= 1f;

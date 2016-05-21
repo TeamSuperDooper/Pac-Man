@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Control : MonoBehaviour {
     private float speed = 0.24f;
+    private float slomoSpeed = 0.01f;
     Vector3 _dest;
     Vector3 _dir = Vector2.zero;
     Vector3 _nextDir = Vector2.zero;
@@ -15,6 +16,8 @@ public class Control : MonoBehaviour {
     private GameObject[] walls;
 
     private const string PELLET_NAME = "Pellet(Clone)";
+    private const string WALL_NAME = "Wall(Clone)";
+    private const string PACMAN_NAME = "Pacman";
 
     private Rigidbody rigidBody;
     bool lastMoveUp;
@@ -40,7 +43,7 @@ public class Control : MonoBehaviour {
         // not from directly the center of next tile but just a little further from center of next tile
         Vector3 pos = transform.position;
         //Debug.DrawLine(pos + direction, pos, Color.red, 5, true);
-        direction += new Vector3(direction.x * 0.45f, 0, direction.z * 0.45f);
+        direction += new Vector3(direction.x, 0, direction.z);
         //Debug.DrawRay(pos + direction, pos);
         //Debug.DrawLine(pos + direction, pos, Color.green, 1, true);
         //Debug.Log(Physics.Linecast(pos + direction, pos));
@@ -56,7 +59,8 @@ public class Control : MonoBehaviour {
                 //Debug.Log("collider name null? " + (hit.collider.name == null));
                 //Debug.Log(hit.collider.name);
 
-                return hit.collider.name == PELLET_NAME; // || (hit.collider == GetComponent<Collider>());
+                //return (hit.collider.name != WALL_NAME && hit.collider.name != PACMAN_NAME);
+                return hit.collider.name == PELLET_NAME || hit.collider == GetComponent<Collider>();
             }
         }
 
@@ -67,11 +71,18 @@ public class Control : MonoBehaviour {
         Vector3 p = Vector3.MoveTowards(transform.position, _dest, speed);
         GetComponent<Rigidbody>().MovePosition(p);
 
-        if (Input.GetAxis("Horizontal") > 0) _nextDir = new Vector3(0, 0, -1f);
-        if (Input.GetAxis("Horizontal") < 0) _nextDir = new Vector3(0, 0, 1f);
-        if (Input.GetAxis("Vertical") > 0) _nextDir = new Vector3(1f, 0, 0);
-        if (Input.GetAxis("Vertical") < 0) _nextDir = new Vector3(-1f, 0, 0);
-
+        if(tag == "Ghost") {
+            if (Input.GetAxis("Horizontal2") > 0) _nextDir = new Vector3(0, 0, -1f);
+            if (Input.GetAxis("Horizontal2") < 0) _nextDir = new Vector3(0, 0, 1f);
+            if (Input.GetAxis("Vertical2") > 0) _nextDir = new Vector3(1f, 0, 0);
+            if (Input.GetAxis("Vertical2") < 0) _nextDir = new Vector3(-1f, 0, 0);
+        }
+        else {
+            if (Input.GetAxis("Horizontal") > 0) _nextDir = new Vector3(0, 0, -1f);
+            if (Input.GetAxis("Horizontal") < 0) _nextDir = new Vector3(0, 0, 1f);
+            if (Input.GetAxis("Vertical") > 0) _nextDir = new Vector3(1f, 0, 0);
+            if (Input.GetAxis("Vertical") < 0) _nextDir = new Vector3(-1f, 0, 0);
+        }
         //_dest = transform.position + _nextDir;
         // if pacman is in the center of a tile
 
