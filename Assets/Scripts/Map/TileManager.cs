@@ -83,7 +83,7 @@ public class TileManager : MonoBehaviour {
         Vector3 pos = Vector3.zero;
 
         //Create floor
-        GameObject mapFloor = (GameObject)Instantiate(floor, new Vector3(-30f/2f,-.23f,-29f/2f), Quaternion.identity);
+        GameObject mapFloor = (GameObject)Instantiate(floor, new Vector3(-30f / 2f, -.23f, -29f / 2f), Quaternion.identity);
         Vector3 floorScale = mapFloor.transform.localScale;
         floorScale.x *= 31;
         floorScale.z *= 28;
@@ -98,15 +98,16 @@ public class TileManager : MonoBehaviour {
                 X = 1; // for every line
                 for (int i = 0; i < line.Length; ++i) {
                     row += line[i].ToString();
-                    Tile newTile =new Tile(X, Y);
+                    Tile newTile = new Tile(X, Y);
 
                     pos.z -= 1f;
                     //We found a wall
                     if (line[i] == '0') {
                         Instantiate(wall, pos, Quaternion.identity);
-                    } else if(line[i] == '1') {
+                    }
+                    else if (line[i] == '1') {
                         //Instantiate(pellet, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
-                        Instantiate(pellet, new Vector3(pos.x, pos.y, pos.z), pellet.transform.rotation);
+                        Instantiate(pellet, new Vector3(pos.x, pos.y + 0.1f, pos.z), pellet.transform.rotation);
                     }
 
                     // if the tile we read is a valid tile (movable)
@@ -142,7 +143,7 @@ public class TileManager : MonoBehaviour {
                 }
 
                 Y--;
-                
+
                 Debug.Log("Row " + Y.ToString("D3") + " = " + row);
                 row = "";
 
