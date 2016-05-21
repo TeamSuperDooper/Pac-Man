@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 
 public class TileManager : MonoBehaviour {
+    //MESH MERGER OPTIMIZATION VARS
+    public MeshFilter[] meshFilters;
+    public Material material;
+
 
     [SerializeField]
     private GameObject wall;
@@ -35,7 +39,7 @@ public class TileManager : MonoBehaviour {
     // Use this for initialization
     void Start() {
         ReadTiles();
-
+        MeshMerge();
     }
 
     // Update is called once per frame
@@ -103,10 +107,12 @@ public class TileManager : MonoBehaviour {
                     pos.z -= 1f;
                     //We found a wall
                     if (line[i] == '0') {
-                        Instantiate(wall, pos, Quaternion.identity);
+                        GameObject newWall = (GameObject)Instantiate(wall, pos, Quaternion.identity);
+                        newWall.transform.parent = transform;
                     } else if (line[i] == '1') {
                         //Instantiate(pellet, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
-                        Instantiate(pellet, new Vector3(pos.x, pos.y + 0.1f, pos.z), pellet.transform.rotation);
+                        GameObject newPellet = (GameObject)Instantiate(pellet, new Vector3(pos.x, pos.y + 0.1f, pos.z), pellet.transform.rotation);
+                        //newPellet.transform.parent = transform;
                     } else if(line[i] == '2') {
                         //Ghost house
                     } else if (line[i] == '3') {
@@ -212,5 +218,100 @@ public class TileManager : MonoBehaviour {
     // returns the distance between two tiles
     public float distance(Tile tile1, Tile tile2) {
         return Mathf.Sqrt(Mathf.Pow(tile1.x - tile2.x, 2) + Mathf.Pow(tile1.y - tile2.y, 2));
+    }
+
+    public void MeshMerge() {
+        // Mesh Merger Script
+        // Copyright 2009, Russ Menapace
+        // http://humanpoweredgames.com
+        // if not specified, go find meshes
+        if (meshFilters.Length == 0) {
+            // find all the mesh filters
+            Component[] comps = GetComponentsInChildren(typeof(MeshFilter));
+            meshFilters = new MeshFilter[comps.Length];
+
+            int mfi = 0;
+            foreach (Component comp in comps)
+                meshFilters[mfi++] = (MeshFilter)comp;
+        }
+
+        // figure out array sizes
+        int vertCount = 0;
+        int normCount = 0;
+        int triCount = 0;
+        int uvCount = 0;
+
+        foreach (MeshFilter mf in meshFilters) {
+            vertCount += mf.mesh.vertices.Length;
+            normCount += mf.mesh.normals.Length;
+            triCount += mf.mesh.triangles.Length;
+            uvCount += mf.mesh.uv.Length;
+            if (material == null)
+                material = mf.gameObject.GetComponent<Renderer>().material;
+        }
+
+        // allocate arrays
+        Vector3[] verts = new Vector3[vertCount];
+        Vector3[] norms = new Vector3[normCount];
+        Transform[] aBones = new Transform[meshFilters.Length];
+        Matrix4x4[] bindPoses = new Matrix4x4[meshFilters.Length];
+        BoneWeight[] weights = new BoneWeight[vertCount];
+        int[] tris = new int[triCount];
+        Vector2[] uvs = new Vector2[uvCount];
+
+        int vertOffset = 0;
+        int normOffset = 0;
+        int triOffset = 0;
+        int uvOffset = 0;
+        int meshOffset = 0;
+
+        // merge the meshes and set up bones
+        foreach (MeshFilter mf in meshFilters) {
+            foreach (int i in mf.mesh.triangles)
+                tris[triOffset++] = i + vertOffset;
+
+            aBones[meshOffset] = mf.transform;
+            bindPoses[meshOffset] = Matrix4x4.identity;
+
+            foreach (Vector3 v in mf.mesh.vertices) {
+                weights[vertOffset].weight0 = 1.0f;
+                weights[vertOffset].boneIndex0 = meshOffset;
+                verts[vertOffset++] = v;
+            }
+
+            foreach (Vector3 n in mf.mesh.normals)
+                norms[normOffset++] = n;
+
+            foreach (Vector2 uv in mf.mesh.uv)
+                uvs[uvOffset++] = uv;
+
+            meshOffset++;
+
+            MeshRenderer mr =
+              mf.gameObject.GetComponent(typeof(MeshRenderer))
+              as MeshRenderer;
+
+            if (mr)
+                mr.enabled = false;
+        }
+
+        // hook up the mesh
+        Mesh me = new Mesh();
+        me.name = gameObject.name;
+        me.vertices = verts;
+        me.normals = norms;
+        me.boneWeights = weights;
+        me.uv = uvs;
+        me.triangles = tris;
+        me.bindposes = bindPoses;
+
+        // hook up the mesh renderer        
+        SkinnedMeshRenderer smr =
+          gameObject.AddComponent(typeof(SkinnedMeshRenderer))
+          as SkinnedMeshRenderer;
+
+        smr.sharedMesh = me;
+        smr.bones = aBones;
+        GetComponent<Renderer>().material = material;
     }
 }
