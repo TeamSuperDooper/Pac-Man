@@ -146,8 +146,7 @@ public class Control : Photon.MonoBehaviour {
             if (Input.GetAxis("Horizontal2") < 0) _nextDir = DIRECTION_LEFT;
             if (Input.GetAxis("Vertical2") > 0) _nextDir = DIRECTION_UP;
             if (Input.GetAxis("Vertical2") < 0) _nextDir = DIRECTION_DOWN;
-        }
-        else {
+        } else {
             if (Input.GetAxis("Horizontal") > 0) _nextDir = DIRECTION_RIGHT;
             if (Input.GetAxis("Horizontal") < 0) _nextDir = DIRECTION_LEFT;
             if (Input.GetAxis("Vertical") > 0) _nextDir = DIRECTION_UP;
