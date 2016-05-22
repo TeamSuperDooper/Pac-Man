@@ -14,6 +14,12 @@ public class Control : Photon.MonoBehaviour {
     private Vector3 DIRECTION_UP = new Vector3(1f, 0, 0);
     private Vector3 DIRECTION_DOWN = new Vector3(-1f, 0, 0);
 
+    private float lastSynchronizationTime = 0f;                         //
+    private float syncDelay = 0f;                                       //
+    private float syncTime = 0f;                                        // For interpolation and synchronicity 
+    private Vector3 syncStartPosition = Vector3.zero;                   //
+    private Vector3 syncEndPosition = Vector3.zero;                     //
+
     [SerializeField]
     private GameObject spotLight;
 
@@ -39,11 +45,40 @@ public class Control : Photon.MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate() {
+    void Update() {
         if (photonView.isMine) {
             MoveBasedOnPosition();
+        } else {
+            SyncedMovement();
         }
     }
+
+    private void SyncedMovement() {                                                                                           //
+        syncTime += Time.deltaTime;                                                                                           //
+        GetComponent<Rigidbody>().position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);          //
+    }                                                                                                                         //
+                                                                                                                              //
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {                                                 //
+        if (stream.isWriting) {                                                                                               //
+            stream.SendNext(GetComponent<Rigidbody>().position);                                                              //  Attempting interpolation, not working correctly
+            stream.SendNext(GetComponent<Rigidbody>().velocity);                                                              //
+        } else {                                                                                                              //  this is for some reason making the joining client very
+            Vector3 syncPosition = (Vector3)stream.ReceiveNext();                                                             //
+            Vector3 syncVelocity = (Vector3)stream.ReceiveNext();                                                             //  flickery looking.
+                                                                                                                              //
+            syncEndPosition = (Vector3)stream.ReceiveNext();                                                                  //   
+            syncStartPosition = GetComponent<Rigidbody>().position;                                                           //
+                                                                                                                              //
+            syncTime = 0f;                                                                                                    //
+            syncDelay = Time.time - lastSynchronizationTime;                                                                  //
+            lastSynchronizationTime = Time.time;                                                                              //
+                                                                                                                              //
+            syncEndPosition = syncPosition + syncVelocity * syncDelay;                                                        //
+            syncStartPosition = GetComponent<Rigidbody>().position;                                                           //
+        }
+    }
+
+
 
     bool Valid(Vector3 direction) {
         // cast line from 'next to pacman' to pacman

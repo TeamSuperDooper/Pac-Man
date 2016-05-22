@@ -26,9 +26,9 @@ public class RandomMatchmaker : MonoBehaviour {
         } else if (PhotonNetwork.room == null) {
 
             //Create Room
-            if (GUI.Button(new Rect(100, 100, 250, 100), "Start Server"))
+            if (GUI.Button(new Rect(80, 80, 250, 100), "Start Server"))
                 PhotonNetwork.CreateRoom(roomName + Guid.NewGuid().ToString("N"), 
-                    new RoomOptions() { maxPlayers = 2 }, null);                                //max players is set here, probably needs tweaking
+                    new RoomOptions() { maxPlayers = 3 }, null);                                //max players is set here, probably needs tweaking
 
             //Join Room
             if (roomsList != null) {
@@ -55,6 +55,7 @@ public class RandomMatchmaker : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+            
+        
+    }
 }
