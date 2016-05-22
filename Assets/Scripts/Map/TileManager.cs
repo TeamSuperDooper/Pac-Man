@@ -18,6 +18,9 @@ public class TileManager : MonoBehaviour {
     [SerializeField]
     private GameObject pellet;
 
+    [SerializeField]
+    private GameObject energizer;
+
     public class Tile {
         public int x { get; set; }
         public int y { get; set; }
@@ -120,7 +123,8 @@ public class TileManager : MonoBehaviour {
                     } else if (line[i] == '4') {
                         //Ghost door
                     } else if (line[i] == '5') {
-                        //Powerup: Ghost eater
+                        //Powerup: Energizer
+                        GameObject newPellet = (GameObject)Instantiate(energizer, new Vector3(pos.x, pos.y + 0.5f, pos.z), pellet.transform.rotation);
                     }
 
 
