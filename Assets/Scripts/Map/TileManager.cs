@@ -68,8 +68,8 @@ public class TileManager : MonoBehaviour {
 0001001000001001000001001000
 0001001000001001000001001000
 0111001111111111111111001110
-0100001001000000001001000010
-0100001001022442201001000010
+0100001001000440001001000010
+0100001001022222201001000010
 3111111001022222201001111113
 0100001001022222201001000010
 0100001001000000001001000010
@@ -114,7 +114,7 @@ public class TileManager : MonoBehaviour {
                         newWall.transform.parent = transform;
                     } else if (line[i] == '1') {
                         //Instantiate(pellet, new Vector3(pos.x, pos.y, pos.z), Quaternion.identity);
-                        GameObject newPellet = (GameObject)Instantiate(pellet, new Vector3(pos.x, pos.y + 0.1f, pos.z), pellet.transform.rotation);
+                        Instantiate(pellet, new Vector3(pos.x, pos.y + 0.1f, pos.z), pellet.transform.rotation);
                         //newPellet.transform.parent = transform;
                     } else if(line[i] == '2') {
                         //Ghost house
@@ -124,7 +124,7 @@ public class TileManager : MonoBehaviour {
                         //Ghost door
                     } else if (line[i] == '5') {
                         //Powerup: Energizer
-                        GameObject newPellet = (GameObject)Instantiate(energizer, new Vector3(pos.x, pos.y + 0.5f, pos.z), pellet.transform.rotation);
+                        Instantiate(energizer, new Vector3(pos.x, pos.y + 0.5f, pos.z), pellet.transform.rotation);
                     }
 
 
