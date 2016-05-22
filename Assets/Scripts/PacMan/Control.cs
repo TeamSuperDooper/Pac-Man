@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Control : MonoBehaviour {
+public class Control : Photon.MonoBehaviour {
     private float speed = 0.24f;
     private float slomoSpeed = 0.01f;
     Vector3 _dest;
@@ -40,7 +40,9 @@ public class Control : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate() {
-        MoveBasedOnPosition();
+        if (photonView.isMine) {
+            MoveBasedOnPosition();
+        }
     }
 
     bool Valid(Vector3 direction) {
