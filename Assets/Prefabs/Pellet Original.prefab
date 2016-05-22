@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3364610}
   - 23: {fileID: 2300306}
   m_Layer: 0
-  m_Name: Pellet
+  m_Name: Pellet Original
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,7 +39,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 11373ae5f7f9e4a49ae13127643db980, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
