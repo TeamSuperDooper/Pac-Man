@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class Control : Photon.MonoBehaviour {
+public class ControlBlinky : Photon.MonoBehaviour {
     private float speed = 0.24f;
     private float slomoSpeed = 0.01f;
     Vector3 _dest;
@@ -124,13 +124,13 @@ public class Control : Photon.MonoBehaviour {
         if (_lastDir != _nextDir) {
             Vector3 t = transform.localRotation.eulerAngles;
 
-            if(_nextDir == DIRECTION_LEFT) {
+            if (_nextDir == DIRECTION_LEFT) {
                 t = new Vector3(0, 450, 0);
-            } else if(_nextDir == DIRECTION_RIGHT) {
+            } else if (_nextDir == DIRECTION_RIGHT) {
                 t = new Vector3(0, 270, 0);
-            } else if(_nextDir == DIRECTION_UP) {
+            } else if (_nextDir == DIRECTION_UP) {
                 t = new Vector3(0, 180, 0);
-            } else if(_nextDir == DIRECTION_DOWN) {
+            } else if (_nextDir == DIRECTION_DOWN) {
                 t = new Vector3(0, 360, 0);
             }
 
@@ -141,13 +141,12 @@ public class Control : Photon.MonoBehaviour {
 
         _lastDir = _nextDir;
 
-        if(tag == "Ghost") {
+        if (tag == "Ghost") {
             if (Input.GetAxis("Horizontal2") > 0) _nextDir = DIRECTION_RIGHT;
             if (Input.GetAxis("Horizontal2") < 0) _nextDir = DIRECTION_LEFT;
             if (Input.GetAxis("Vertical2") > 0) _nextDir = DIRECTION_UP;
             if (Input.GetAxis("Vertical2") < 0) _nextDir = DIRECTION_DOWN;
-        }
-        else {
+        } else {
             if (Input.GetAxis("Horizontal") > 0) _nextDir = DIRECTION_RIGHT;
             if (Input.GetAxis("Horizontal") < 0) _nextDir = DIRECTION_LEFT;
             if (Input.GetAxis("Vertical") > 0) _nextDir = DIRECTION_UP;
@@ -163,9 +162,8 @@ public class Control : Photon.MonoBehaviour {
             if (Valid(_nextDir)) {
                 _dest = transform.position + _nextDir;
                 _dir = _nextDir;
-            }
-            else   // if next direction is not valid
-            {
+            } else   // if next direction is not valid
+              {
                 if (Valid(_dir))  // and the prev. direction is valid
                     _dest = (Vector3)transform.position + _dir;   // continue on that direction
 
