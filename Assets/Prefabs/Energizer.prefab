@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 411642}
   - 33: {fileID: 3379952}
   - 23: {fileID: 2314898}
-  - 95: {fileID: 9528860}
   m_Layer: 0
   m_Name: Energizer
   m_TagString: Untagged
@@ -26,6 +25,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 416876}
+  - 95: {fileID: 9567904}
+  - 135: {fileID: 13596540}
+  - 114: {fileID: 11435082}
   m_Layer: 0
   m_Name: Energizer
   m_TagString: Untagged
@@ -39,9 +41,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 108754}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.097775325, y: 0.60448426, z: 0.08589199, w: 0.7859143}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.0069999998, y: 0.008, z: 0.0150000015}
   m_Children: []
   m_Father: {fileID: 416876}
   m_RootOrder: 0
@@ -51,9 +53,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 139614}
-  m_LocalRotation: {x: 0.097775325, y: 0.60448426, z: 0.08589199, w: 0.7859143}
-  m_LocalPosition: {x: -29.1, y: 0.46, z: -12.3}
-  m_LocalScale: {x: 0.0069999998, y: 0.008, z: 0.0150000015}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -27.58, y: -0.4, z: -12.03}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 411642}
   m_Father: {fileID: 0}
@@ -91,13 +93,13 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 108754}
   m_Mesh: {fileID: 4300000, guid: d6aead9bc0d09734c913f929eb842389, type: 3}
---- !u!95 &9528860
+--- !u!95 &9567904
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 108754}
+  m_GameObject: {fileID: 139614}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: bf47612cac8cf774fb0c91de746a2b3c, type: 2}
@@ -108,6 +110,29 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11435082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 139614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e84e1565454c8df46a3a6974adedacd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &13596540
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 139614}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.27775764
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
