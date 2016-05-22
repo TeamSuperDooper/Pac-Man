@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class Control : Photon.MonoBehaviour {
@@ -20,10 +19,9 @@ public class Control : Photon.MonoBehaviour {
     private float syncTime = 0f;                                        // For interpolation and synchronicity 
     private Vector3 syncStartPosition = Vector3.zero;                   //
     private Vector3 syncEndPosition = Vector3.zero;                     //
-    private Vector3 startLocation;
 
     [SerializeField]
-    private GameObject debugText;
+    private GameObject spotLight;
 
     private GameObject[] floors;
     private GameObject[] walls;
@@ -40,7 +38,6 @@ public class Control : Photon.MonoBehaviour {
 
     void Awake() {
         _dest = transform.position;
-        startLocation = transform.position;
     }
 
     void Start() {
@@ -48,23 +45,19 @@ public class Control : Photon.MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate() {
+    void Update() {
         if (photonView.isMine) {
             MoveBasedOnPosition();
         } else {
-            //SyncedMovement();
+            SyncedMovement();
         }
     }
 
-    /*
-    private void SyncedMovement() {
-        //if (syncStartPosition != )
-        //debugText.GetComponent<Text>().text += "\n" + "syncStartPosition: " + syncStartPosition.ToString() + "\n" + "syncEndPosition: " + syncEndPosition.ToString();
-        Debug.Log("\n" + "syncStartPosition: " + syncStartPosition.ToString() + "\n" + "syncEndPosition: " + syncEndPosition.ToString());
+    private void SyncedMovement() {                                                                                           //
         syncTime += Time.deltaTime;                                                                                           //
-        //GetComponent<Rigidbody>().position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);          //
+        GetComponent<Rigidbody>().position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);          //
     }                                                                                                                         //
-    */                                                                                                                          //
+                                                                                                                              //
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {                                                 //
         if (stream.isWriting) {                                                                                               //
             stream.SendNext(GetComponent<Rigidbody>().position);                                                              //  Attempting interpolation, not working correctly

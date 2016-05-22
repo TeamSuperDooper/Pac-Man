@@ -12,8 +12,8 @@ GameObject:
   - 135: {fileID: 13531084}
   - 23: {fileID: 2305786}
   - 54: {fileID: 5460608}
+  - 114: {fileID: 11474286}
   - 114: {fileID: 11409718}
-  - 114: {fileID: 11423384}
   m_Layer: 0
   m_Name: Blinky
   m_TagString: Ghost
@@ -106,7 +106,7 @@ MonoBehaviour:
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
---- !u!114 &11423384
+--- !u!114 &11474286
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -114,10 +114,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 152460}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 279e09669b99b5b488dc556171371867, type: 3}
+  m_Script: {fileID: 11500000, guid: 67091c8f7d8253a48bf760bbd3c6290c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugText: {fileID: 0}
+  spotLight: {fileID: 0}
 --- !u!135 &13531084
 SphereCollider:
   m_ObjectHideFlags: 1

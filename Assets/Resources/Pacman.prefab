@@ -90,6 +90,7 @@ GameObject:
   - 20: {fileID: 2057908}
   - 124: {fileID: 12410268}
   - 92: {fileID: 9267452}
+  - 81: {fileID: 8165310}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -500,6 +501,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!81 &8165310
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 150614}
+  m_Enabled: 1
 --- !u!92 &9267452
 Behaviour:
   m_ObjectHideFlags: 1
@@ -535,7 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67091c8f7d8253a48bf760bbd3c6290c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugText: {fileID: 0}
+  spotLight: {fileID: 0}
 --- !u!114 &11408616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -547,7 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67091c8f7d8253a48bf760bbd3c6290c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugText: {fileID: 0}
+  spotLight: {fileID: 0}
 --- !u!114 &11411270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -559,7 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67091c8f7d8253a48bf760bbd3c6290c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugText: {fileID: 0}
+  spotLight: {fileID: 0}
 --- !u!114 &11435936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -571,7 +579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67091c8f7d8253a48bf760bbd3c6290c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugText: {fileID: 0}
+  spotLight: {fileID: 0}
 --- !u!114 &11442134
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -583,7 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67091c8f7d8253a48bf760bbd3c6290c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugText: {fileID: 0}
+  spotLight: {fileID: 0}
 --- !u!114 &11450480
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -595,7 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67091c8f7d8253a48bf760bbd3c6290c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugText: {fileID: 0}
+  spotLight: {fileID: 0}
 --- !u!114 &11498614
 MonoBehaviour:
   m_ObjectHideFlags: 1

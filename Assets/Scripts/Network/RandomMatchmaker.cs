@@ -2,13 +2,11 @@
 using System.Collections;
 using System;
 
-public class RandomMatchmaker : Photon.MonoBehaviour {
+public class RandomMatchmaker : MonoBehaviour {
 
     private const string roomName = "RoomName";
     private RoomInfo[] roomsList;
-    //public GameObject playerPrefab;              //change to pacman?
-
-    private bool isServerHost = false;             //Indicates whether you are the server host, or not
+    public GameObject playerPrefab;              //change to pacman?
 
     private bool connectedToPhotonNetwork = false;         //might be deprecated
 
@@ -28,12 +26,9 @@ public class RandomMatchmaker : Photon.MonoBehaviour {
         } else if (PhotonNetwork.room == null) {
 
             //Create Room
-            if (GUI.Button(new Rect(80, 80, 250, 100), "Start Server")) {
-                isServerHost = true;
-                PhotonNetwork.CreateRoom(roomName + Guid.NewGuid().ToString("N"),
+            if (GUI.Button(new Rect(80, 80, 250, 100), "Start Server"))
+                PhotonNetwork.CreateRoom(roomName + Guid.NewGuid().ToString("N"), 
                     new RoomOptions() { maxPlayers = 3 }, null);                                //max players is set here, probably needs tweaking
-            }
-                
 
             //Join Room
             if (roomsList != null) {
@@ -54,15 +49,8 @@ public class RandomMatchmaker : Photon.MonoBehaviour {
     void OnJoinedRoom() {
         Debug.Log("Connected to Room");
 
-        //Are you the server host? If so, you are Pacman. Otherwise, you will be Blinky.
-        if (isServerHost == true) {                                                            
-            PhotonNetwork.Instantiate("Pacman", new Vector3(-28.97f, 0.172f, -13.991f), Quaternion.Euler(0, 90, 0), 0);
-        } else {
-            PhotonNetwork.Instantiate("Blinky", new Vector3(-18.97f, 0.172f, -13.991f), Quaternion.Euler(0, 90, 0), 0);
-        }
-
         //Spawn player
-        //PhotonNetwork.Instantiate("Pacman", Vector3.up * 5, Quaternion.identity, 0);
+        PhotonNetwork.Instantiate(playerPrefab.name, Vector3.up * 5, Quaternion.identity, 0);
     }
 	
 	// Update is called once per frame
