@@ -50,8 +50,13 @@ public class Control : Photon.MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate() {
         if (photonView.isMine) {
+            Debug.Log("View is mine");
+            MoveBasedOnPosition();
+        } else if (PhotonNetwork.offlineMode) {
+            Debug.Log("Offline - start");
             MoveBasedOnPosition();
         } else {
+            Debug.Log("else");
             //SyncedMovement();
         }
     }
@@ -66,6 +71,7 @@ public class Control : Photon.MonoBehaviour {
     }                                                                                                                         //
     */                                                                                                                          //
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {                                                 //
+        Debug.Log("On Photon SerializeView ");
         if (stream.isWriting) {                                                                                               //
             stream.SendNext(GetComponent<Rigidbody>().position);                                                              //  Attempting interpolation, not working correctly
             stream.SendNext(GetComponent<Rigidbody>().velocity);                                                              //

@@ -23,28 +23,60 @@ public class RandomMatchmaker : Photon.MonoBehaviour {
 	}
 
     void OnGUI() {
+        /*
         if (!PhotonNetwork.connected) {
-            GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
-        } else if (PhotonNetwork.room == null) {
+            Debug.Log("Not connected to Photon");
+        }
+        else if (PhotonNetwork.room == null) {
+            if (MainMenuController.instance.multiPlayerEnabled) {
+                if (MainMenuController.instance.creatingGame) {
+                    Debug.Log("created room");
+                    isServerHost = true;
+                    PhotonNetwork.CreateRoom(roomName + Guid.NewGuid().ToString("N"),
+                        new RoomOptions() { maxPlayers = 3 }, null); //max players is set here, probably needs tweaking
 
-            //Create Room
-            if (GUI.Button(new Rect(80, 80, 250, 100), "Start Server")) {
-                isServerHost = true;
-                PhotonNetwork.CreateRoom(roomName + Guid.NewGuid().ToString("N"),
-                    new RoomOptions() { maxPlayers = 3 }, null);                                //max players is set here, probably needs tweaking
+                    //for (int i = 0; i < roomsList.Length; i++) {            //cycle through the current available rooms
+                    //    if (GUI.Button(new Rect(100, 250 + (110 * i), 250, 100), "Join Room #" + i + ":")) {
+                    //        PhotonNetwork.JoinRoom(roomsList[i].name);
+                    //    }
+                    //}
+                } else if (MainMenuController.instance.joiningGame) {
+                    for (int i = 0; i < roomsList.Length; i++) {            //cycle through the current available rooms
+                        if (GUI.Button(new Rect(100, 250 + (110 * i), 250, 100), "Join Room #" + i + ":")) {
+                            PhotonNetwork.JoinRoom(roomsList[i].name);
+                        }
+                     }
+                }
+
             }
-                
+        }
+        */
 
-            //Join Room
-            if (roomsList != null) {
-                for (int i = 0; i < roomsList.Length; i++) {            //cycle through the current available rooms
-                    if (GUI.Button(new Rect(100, 250 + (110 * i), 250, 100), "Join Room #" + i + ":")) {
-                        PhotonNetwork.JoinRoom(roomsList[i].name);
+            Debug.Log("is photon network offline? " + PhotonNetwork.offlineMode);
+            
+           if (!PhotonNetwork.connected) {
+                GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
+            } else if (PhotonNetwork.room == null) {
+
+                //Create Room
+                if (GUI.Button(new Rect(80, 80, 250, 100), "Start Server")) {
+                    isServerHost = true;
+                    PhotonNetwork.CreateRoom(roomName + Guid.NewGuid().ToString("N"),
+                        new RoomOptions() { maxPlayers = 3 }, null);                                //max players is set here, probably needs tweaking
+                }
+
+
+                //Join Room
+                if (roomsList != null) {
+                    for (int i = 0; i < roomsList.Length; i++) {            //cycle through the current available rooms
+                        if (GUI.Button(new Rect(100, 250 + (110 * i), 250, 100), "Join Room #" + i + ":")) {
+                            PhotonNetwork.JoinRoom(roomsList[i].name);
+                        }
                     }
                 }
+
             }
 
-        }
     }
 
     void OnReceivedRoomListUpdate() {
@@ -55,10 +87,19 @@ public class RandomMatchmaker : Photon.MonoBehaviour {
         Debug.Log("Connected to Room");
 
         //Are you the server host? If so, you are Pacman. Otherwise, you will be Blinky.
-        if (isServerHost == true) {                                                            
-            PhotonNetwork.Instantiate("Pacman", new Vector3(-28.97f, 0.172f, -13.991f), Quaternion.Euler(0, 90, 0), 0);
-        } else {
-            PhotonNetwork.Instantiate("Blinky", new Vector3(-18.97f, 0.172f, -13.991f), Quaternion.Euler(0, 90, 0), 0);
+        if (isServerHost == true) {
+            GameObject pacMan = (GameObject)PhotonNetwork.Instantiate("Pacman", new Vector3(-28.97f, 0.172f, -13.991f), Quaternion.Euler(0, 90, 0), 0);
+            pacMan.SetActive(true);
+
+            GameObject blinky = (GameObject)PhotonNetwork.Instantiate("Blinky", new Vector3(-28.97f, 0.172f, -18.991f), Quaternion.Euler(0, 90, 0), 0);
+            blinky.SetActive(true);
+        }
+        else {
+            GameObject pacMan = (GameObject)PhotonNetwork.Instantiate("Pacman", new Vector3(-28.97f, 0.172f, -13.991f), Quaternion.Euler(0, 90, 0), 0);
+            //pacMan.SetActive(true);
+
+            GameObject blinky = (GameObject)PhotonNetwork.Instantiate("Blinky", new Vector3(-28.97f, 0.172f, -18.991f), Quaternion.Euler(0, 90, 0), 0);
+            //blinky.SetActive(true);
         }
 
         //Spawn player
